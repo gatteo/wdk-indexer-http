@@ -11,7 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-"use strict";
+'use strict'
 
 /**
  * Tether WDK Indexer HTTP Client
@@ -22,27 +22,27 @@
 
 /** Supported blockchain networks */
 export const BLOCKCHAINS = [
-  "ethereum",
-  "sepolia",
-  "plasma",
-  "arbitrum",
-  "polygon",
-  "tron",
-  "ton",
-  "bitcoin",
-  "spark",
-];
+  'ethereum',
+  'sepolia',
+  'plasma',
+  'arbitrum',
+  'polygon',
+  'tron',
+  'ton',
+  'bitcoin',
+  'spark'
+]
 
 /** Supported tokens */
-export const TOKENS = ["usdt", "xaut", "btc"];
+export const TOKENS = ['usdt', 'xaut', 'btc']
 
 /**
  * Base error class for SDK errors
  */
 export class WdkIndexerError extends Error {
-  constructor(message) {
-    super(message);
-    this.name = "WdkIndexerError";
+  constructor (message) {
+    super(message)
+    this.name = 'WdkIndexerError'
   }
 }
 
@@ -50,11 +50,11 @@ export class WdkIndexerError extends Error {
  * Error thrown when the API returns an error response
  */
 export class WdkIndexerApiError extends WdkIndexerError {
-  constructor(apiError) {
-    super(apiError.message);
-    this.name = "WdkIndexerApiError";
-    this.status = apiError.status;
-    this.errorType = apiError.error;
+  constructor (apiError) {
+    super(apiError.message)
+    this.name = 'WdkIndexerApiError'
+    this.status = apiError.status
+    this.errorType = apiError.error
   }
 }
 
@@ -62,9 +62,9 @@ export class WdkIndexerApiError extends WdkIndexerError {
  * Error thrown when a request times out
  */
 export class WdkIndexerTimeoutError extends WdkIndexerError {
-  constructor(timeout) {
-    super(`Request timed out after ${timeout}ms`);
-    this.name = "WdkIndexerTimeoutError";
+  constructor (timeout) {
+    super(`Request timed out after ${timeout}ms`)
+    this.name = 'WdkIndexerTimeoutError'
   }
 }
 
@@ -72,10 +72,10 @@ export class WdkIndexerTimeoutError extends WdkIndexerError {
  * Error thrown when there's a network error
  */
 export class WdkIndexerNetworkError extends WdkIndexerError {
-  constructor(message, cause) {
-    super(message);
-    this.name = "WdkIndexerNetworkError";
-    this.cause = cause;
+  constructor (message, cause) {
+    super(message)
+    this.name = 'WdkIndexerNetworkError'
+    this.cause = cause
   }
 }
 
@@ -84,14 +84,14 @@ export class WdkIndexerNetworkError extends WdkIndexerError {
  * @param {unknown} response
  * @returns {boolean}
  */
-export function isApiError(response) {
+export function isApiError (response) {
   return (
-    typeof response === "object" &&
+    typeof response === 'object' &&
     response !== null &&
-    "error" in response &&
-    "message" in response &&
-    "status" in response
-  );
+    'error' in response &&
+    'message' in response &&
+    'status' in response
+  )
 }
 
 /**
@@ -99,8 +99,8 @@ export function isApiError(response) {
  * @param {object} item
  * @returns {boolean}
  */
-export function isTokenTransfersResponse(item) {
-  return "transfers" in item;
+export function isTokenTransfersResponse (item) {
+  return 'transfers' in item
 }
 
 /**
@@ -108,8 +108,8 @@ export function isTokenTransfersResponse(item) {
  * @param {object} item
  * @returns {boolean}
  */
-export function isTokenBalanceResponse(item) {
-  return "tokenBalance" in item;
+export function isTokenBalanceResponse (item) {
+  return 'tokenBalance' in item
 }
 
 /**
@@ -138,23 +138,23 @@ export class WdkIndexerClient {
    * @param {number} [config.timeout=30000] - Request timeout in milliseconds
    * @param {typeof fetch} [config.fetch] - Custom fetch implementation
    */
-  constructor(config) {
+  constructor (config) {
     if (!config.apiKey) {
-      throw new WdkIndexerError("API key is required");
+      throw new WdkIndexerError('API key is required')
     }
 
-    this.apiKey = config.apiKey;
-    this.baseUrl = (config.baseUrl || "https://wdk-api.tether.io").replace(
+    this.apiKey = config.apiKey
+    this.baseUrl = (config.baseUrl || 'https://wdk-api.tether.io').replace(
       /\/$/,
-      ""
-    );
-    this.timeout = config.timeout || 30000;
-    this.fetchFn = config.fetch || globalThis.fetch;
+      ''
+    )
+    this.timeout = config.timeout || 30000
+    this.fetchFn = config.fetch || globalThis.fetch
 
     if (!this.fetchFn) {
       throw new WdkIndexerError(
-        "fetch is not available. Please provide a custom fetch implementation or use Node.js 18+."
-      );
+        'fetch is not available. Please provide a custom fetch implementation or use Node.js 18+.'
+      )
     }
   }
 
@@ -168,66 +168,66 @@ export class WdkIndexerClient {
    * @param {unknown} [options.body]
    * @returns {Promise<unknown>}
    */
-  async _request(method, path, options) {
-    let url = `${this.baseUrl}${path}`;
+  async _request (method, path, options) {
+    let url = `${this.baseUrl}${path}`
 
     // Add query parameters
     if (options?.query) {
-      const params = new URLSearchParams();
+      const params = new URLSearchParams()
       for (const [key, value] of Object.entries(options.query)) {
         if (value !== undefined) {
-          params.append(key, String(value));
+          params.append(key, String(value))
         }
       }
-      const queryString = params.toString();
+      const queryString = params.toString()
       if (queryString) {
-        url += `?${queryString}`;
+        url += `?${queryString}`
       }
     }
 
     const headers = {
-      "x-api-key": this.apiKey,
-      "Content-Type": "application/json",
-    };
+      'x-api-key': this.apiKey,
+      'Content-Type': 'application/json'
+    }
 
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), this.timeout);
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), this.timeout)
 
     try {
       const response = await this.fetchFn(url, {
         method,
         headers,
         body: options?.body ? JSON.stringify(options.body) : undefined,
-        signal: controller.signal,
-      });
+        signal: controller.signal
+      })
 
-      const data = await response.json();
+      const data = await response.json()
 
       if (!response.ok) {
         if (isApiError(data)) {
-          throw new WdkIndexerApiError(data);
+          throw new WdkIndexerApiError(data)
         }
         throw new WdkIndexerApiError({
-          error: "UnknownError",
+          error: 'UnknownError',
           message: `HTTP ${response.status}: ${response.statusText}`,
-          status: response.status,
-        });
+          status: response.status
+        })
       }
 
-      return data;
+      return data
     } catch (error) {
       if (error instanceof WdkIndexerError) {
-        throw error;
+        throw error
       }
       if (error instanceof Error) {
-        if (error.name === "AbortError") {
-          throw new WdkIndexerTimeoutError(this.timeout);
+        if (error.name === 'AbortError') {
+          throw new WdkIndexerTimeoutError(this.timeout)
         }
-        throw new WdkIndexerNetworkError(error.message, error);
+        throw new WdkIndexerNetworkError(error.message, error)
       }
-      throw new WdkIndexerNetworkError("An unknown error occurred");
+      throw new WdkIndexerNetworkError('An unknown error occurred')
     } finally {
-      clearTimeout(timeoutId);
+      clearTimeout(timeoutId)
     }
   }
 
@@ -244,8 +244,8 @@ export class WdkIndexerClient {
    * console.log(health.status); // "ok"
    * ```
    */
-  async health() {
-    return this._request("GET", "/api/v1/health");
+  async health () {
+    return this._request('GET', '/api/v1/health')
   }
 
   /**
@@ -273,9 +273,9 @@ export class WdkIndexerClient {
    * );
    * ```
    */
-  async getTokenTransfers(blockchain, token, address, options) {
+  async getTokenTransfers (blockchain, token, address, options) {
     return this._request(
-      "GET",
+      'GET',
       `/api/v1/${blockchain}/${token}/${encodeURIComponent(
         address
       )}/token-transfers`,
@@ -283,10 +283,10 @@ export class WdkIndexerClient {
         query: {
           limit: options?.limit,
           fromTs: options?.fromTs,
-          toTs: options?.toTs,
-        },
+          toTs: options?.toTs
+        }
       }
-    );
+    )
   }
 
   /**
@@ -305,10 +305,10 @@ export class WdkIndexerClient {
    * ]);
    * ```
    */
-  async getBatchTokenTransfers(requests) {
-    return this._request("POST", "/api/v1/batch/token-transfers", {
-      body: requests,
-    });
+  async getBatchTokenTransfers (requests) {
+    return this._request('POST', '/api/v1/batch/token-transfers', {
+      body: requests
+    })
   }
 
   /**
@@ -327,13 +327,13 @@ export class WdkIndexerClient {
    * console.log(`Balance: ${balance.tokenBalance.amount} ${balance.tokenBalance.token}`);
    * ```
    */
-  async getTokenBalance(blockchain, token, address) {
+  async getTokenBalance (blockchain, token, address) {
     return this._request(
-      "GET",
+      'GET',
       `/api/v1/${blockchain}/${token}/${encodeURIComponent(
         address
       )}/token-balances`
-    );
+    )
   }
 
   /**
@@ -352,10 +352,10 @@ export class WdkIndexerClient {
    * ]);
    * ```
    */
-  async getBatchTokenBalances(requests) {
-    return this._request("POST", "/api/v1/batch/token-balances", {
-      body: requests,
-    });
+  async getBatchTokenBalances (requests) {
+    return this._request('POST', '/api/v1/batch/token-balances', {
+      body: requests
+    })
   }
 }
 
@@ -370,8 +370,8 @@ export class WdkIndexerClient {
  * const client = createClient({ apiKey: 'your-api-key' });
  * ```
  */
-export function createClient(config) {
-  return new WdkIndexerClient(config);
+export function createClient (config) {
+  return new WdkIndexerClient(config)
 }
 
-export default WdkIndexerClient;
+export default WdkIndexerClient

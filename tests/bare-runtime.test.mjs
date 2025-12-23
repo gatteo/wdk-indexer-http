@@ -12,29 +12,29 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import test from "brittle";
+import test from 'brittle'
 
-import { WdkIndexerClient } from "../bare.js";
+import { WdkIndexerClient } from '../bare.js'
 
-test("bare runtime: exports indexer client", (t) => {
-  t.ok(WdkIndexerClient, "WdkIndexerClient should be exported");
-  const client = new WdkIndexerClient({ apiKey: "test-key" });
-  t.ok(client, "instance should be constructible");
-  t.ok(typeof client.health === "function", "health should exist");
+test('bare runtime: exports indexer client', (t) => {
+  t.ok(WdkIndexerClient, 'WdkIndexerClient should be exported')
+  const client = new WdkIndexerClient({ apiKey: 'test-key' })
+  t.ok(client, 'instance should be constructible')
+  t.ok(typeof client.health === 'function', 'health should exist')
   t.ok(
-    typeof client.getTokenTransfers === "function",
-    "getTokenTransfers should exist"
-  );
+    typeof client.getTokenTransfers === 'function',
+    'getTokenTransfers should exist'
+  )
   t.ok(
-    typeof client.getTokenBalance === "function",
-    "getTokenBalance should exist"
-  );
+    typeof client.getTokenBalance === 'function',
+    'getTokenBalance should exist'
+  )
   t.ok(
-    typeof client.getBatchTokenTransfers === "function",
-    "getBatchTokenTransfers should exist"
-  );
+    typeof client.getBatchTokenTransfers === 'function',
+    'getBatchTokenTransfers should exist'
+  )
   t.ok(
-    typeof client.getBatchTokenBalances === "function",
-    "getBatchTokenBalances should exist"
-  );
-});
+    typeof client.getBatchTokenBalances === 'function',
+    'getBatchTokenBalances should exist'
+  )
+})
