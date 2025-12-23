@@ -264,7 +264,7 @@ export class WdkIndexerClient {
    *
    * @example
    * ```javascript
-   * // Get the last 100 USDT transfers on Ethereum
+   * // Get the last 100 USDt transfers on Ethereum
    * const transfers = await client.getTokenTransfers(
    *   'ethereum',
    *   'usdt',

@@ -60,7 +60,7 @@ async function getBalance () {
     const balance = await client.getTokenBalance(
       'ethereum',
       'usdt',
-      '0xdAC17F958D2ee523a2206206994597C13D831ec7' // USDT contract address as example
+      '0xdAC17F958D2ee523a2206206994597C13D831ec7' // USDt contract address as example
     )
 
     console.log(`Blockchain: ${balance.tokenBalance.blockchain}`)
@@ -110,7 +110,7 @@ async function getBatchBalances () {
   try {
     const address = '0xdAC17F958D2ee523a2206206994597C13D831ec7'
 
-    // Get USDT balance across multiple chains
+    // Get USDt balance across multiple chains
     const requests = ['ethereum', 'polygon', 'arbitrum'].map((blockchain) => ({
       blockchain,
       token: 'usdt',
@@ -124,7 +124,7 @@ async function getBatchBalances () {
       const chain = requests[i]?.blockchain
 
       if (isTokenBalanceResponse(result)) {
-        console.log(`  ${chain}: ${result.tokenBalance.amount} USDT`)
+        console.log(`  ${chain}: ${result.tokenBalance.amount} USDt`)
       } else {
         console.log(`  ${chain}: Error - ${result.message}`)
       }
@@ -150,7 +150,7 @@ async function getBatchTransfers () {
       {
         blockchain: 'tron',
         token: 'usdt',
-        address: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t', // USDT contract on Tron
+        address: 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t', // USDt contract on Tron
         limit: 5
       }
     ])
@@ -171,10 +171,10 @@ async function getBatchTransfers () {
 }
 
 /**
- * Example 6: Track Total USDT Holdings Across All Chains
+ * Example 6: Track Total USDt Holdings Across All Chains
  */
 async function trackTotalHoldings (address) {
-  console.log('\n=== Total USDT Holdings Across All Chains ===')
+  console.log('\n=== Total USDt Holdings Across All Chains ===')
   console.log(`Address: ${address}`)
 
   try {

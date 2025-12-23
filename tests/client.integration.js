@@ -43,7 +43,7 @@ test('integration - health check', async (t) => {
 })
 
 test('integration - getTokenBalance', async (t) => {
-  // USDT contract on Ethereum
+  // USDt contract on Ethereum
   const balance = await client.getTokenBalance(
     'ethereum',
     'usdt',

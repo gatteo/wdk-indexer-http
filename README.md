@@ -28,13 +28,13 @@ const client = new WdkIndexerClient({
 const health = await client.health()
 console.log(health.status) // "ok"
 
-// Get USDT balance on Ethereum
+// Get USDt balance on Ethereum
 const balance = await client.getTokenBalance(
   'ethereum',
   'usdt',
   '0x742d35Cc6634C0532925a3b844Bc9e7595f5aB12'
 )
-console.log(`Balance: ${balance.tokenBalance.amount} USDT`)
+console.log(`Balance: ${balance.tokenBalance.amount} USDt`)
 
 // Get token transfers
 const transfers = await client.getTokenTransfers(
