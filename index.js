@@ -37,7 +37,7 @@ export const BLOCKCHAINS = [
 export const TOKENS = ['usdt', 'xaut', 'btc']
 
 /** Maximum number of addresses allowed in a batch request */
-export const BATCH_LIMIT = 50
+export const BATCH_LIMIT = 10
 
 /**
  * Base error class for SDK errors

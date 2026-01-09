@@ -250,7 +250,7 @@ console.log(TOKENS)
 // ['usdt', 'xaut', 'btc']
 
 console.log(BATCH_LIMIT)
-// 50
+// 10
 ```
 
 ## Development

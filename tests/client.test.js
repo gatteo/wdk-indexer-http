@@ -157,8 +157,8 @@ test('WdkIndexerApiError - handles missing status', async (t) => {
   t.is(error.errorType, 'Bad Request')
 })
 
-test('BATCH_LIMIT - is 50', async (t) => {
-  t.is(BATCH_LIMIT, 50)
+test('BATCH_LIMIT - is 10', async (t) => {
+  t.is(BATCH_LIMIT, 10)
 })
 
 test('WdkIndexerClient - validates blockchain parameter', async (t) => {
@@ -193,7 +193,7 @@ test('WdkIndexerClient - validates batch size limit', async (t) => {
   const mockFetch = async () => ({ ok: true, json: async () => ([]) })
   const client = new WdkIndexerClient({ apiKey: 'test-key', fetch: mockFetch })
 
-  const requests = Array(51).fill({ blockchain: 'ethereum', token: 'usdt', address: '0x1234' })
+  const requests = Array(101).fill({ blockchain: 'ethereum', token: 'usdt', address: '0x1234' })
 
   try {
     await client.getBatchTokenBalances(requests)
@@ -201,8 +201,8 @@ test('WdkIndexerClient - validates batch size limit', async (t) => {
   } catch (error) {
     t.ok(error instanceof WdkIndexerValidationError)
     t.ok(error.message.includes('exceeds limit'))
-    t.ok(error.message.includes('51'))
-    t.ok(error.message.includes('50'))
+    t.ok(error.message.includes('101'))
+    t.ok(error.message.includes('100'))
   }
 })
 
